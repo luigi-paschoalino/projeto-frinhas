@@ -1,0 +1,3 @@
+teste = []
+
+print(type(teste))
