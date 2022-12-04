@@ -1,6 +1,11 @@
 const Sequelize = require('sequelize');
 const db = require('./db');
 
+async function sync(){
+    await db.sync();
+    console.log('Sincronizado com sucesso!');
+}
+
 const Usuario = db.define('usuario', {
     nome: {
         type: Sequelize.STRING,
@@ -63,5 +68,7 @@ const Noticia = db.define('noticia', {
     timestamps: false,
     freezeTableName: true
 });
+
+sync();
 
 module.exports = { Usuario, Noticia, Sequelize };
