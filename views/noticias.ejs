@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notícias cadastradas</title>
+</head>
+<body>
+    <% noticias.forEach(noticia => { %>
+        <% let data = new Date(noticia.data_noticia).toLocaleString('en-US', { timeZone: 'Europe/Rome' }) %>
+        <% data = new Date(data) %>
+        <a href="/noticias?id=<%= noticia.idnoticia %>"><h2><%= noticia.tipo_noticia %> no bairro <%= noticia.bairro_afetado %> - <%= data.getDate() + "/" + (data.getMonth() + 1) + "/" + data.getFullYear() %></h2></a>
+    <% }) %>
+</body>
+</html>

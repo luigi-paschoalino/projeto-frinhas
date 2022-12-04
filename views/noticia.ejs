@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notícia</title>
+</head>
+<body>
+    <h1>
+        <%= noticia.tipo_noticia %> no bairro <%= noticia.bairro_afetado %>
+    </h1>
+    <% if (noticia.tipo_noticia == 'Deslizamento') { %>
+        <p>
+        Um deslizamento de terra ocorreu no bairro <%= noticia.bairro_afetado %>.
+        <% if (noticia.descricao != null || noticia.descricao != undefined) { %>
+        Mais detalhes sobre o ocorrido abaixo:<br><%= noticia.descricao %>
+        </p>
+        <% } %>
+    <% } else if (noticia.tipo_noticia == 'Incêndio') { %>
+        <p>
+        Um incêndio ocorreu no bairro <%= noticia.bairro_afetado %>.
+        <% if (noticia.descricao != null || noticia.descricao != undefined) { %>
+        Mais detalhes sobre o ocorrido abaixo:<br><%= noticia.descricao %>
+        </p>
+        <% } %>
+    <% } else if (noticia.tipo_noticia == 'Enchente') { %>
+        <p>
+        Uma enchente ocorreu no bairro <%= noticia.bairro_afetado %>.
+        <% if (noticia.descricao != null || noticia.descricao != undefined) { %>
+        Mais detalhes sobre o ocorrido abaixo:<br><br><%= noticia.descricao %>
+        </p>
+        <% } %>
+    <% } %>
+</body>
+</html>

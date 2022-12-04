@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('frinhas', 'postgres', 'postgres', {
+const sequelize = new Sequelize('unifei', 'postgres', 'postgres', {
     host: 'localhost',
     dialect: 'postgres'
 });
@@ -15,3 +15,5 @@ async function conexao(){
 }
 
 conexao();
+
+module.exports = sequelize;

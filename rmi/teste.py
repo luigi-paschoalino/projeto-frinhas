@@ -1,3 +1,3 @@
-teste = []
+import Pyro5.core
 
-print(type(teste))
+print(Pyro5.core.locate_ns())
