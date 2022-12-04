@@ -1,7 +1,8 @@
-import Pyro5.api
+import Pyro5.server
+import Pyro5.core
 import yagmail
 
-@Pyro5.api.expose
+@Pyro5.server.expose
 class Emailer(object):
     def sendEmails(self, emails, assunto, mensagem):
         gmail_user = 'defesacivil.unifei@gmail.com'
@@ -21,14 +22,9 @@ class Emailer(object):
             print('Erro ao enviar email:', ex)
         return True
 
-daemon = Pyro5.api.Daemon()
-print('Daemon rodando')
-ns = Pyro5.api.locate_ns()
-print('NS localizado')
+daemon = Pyro5.server.Daemon(host="10.244.251.240")
+ns = Pyro5.core.locate_ns()
 uri = daemon.register(Emailer)
-print('Registrando objeto')
-ns.register('emailer', uri)
-print('Objeto registrado')
-
-print('Servidor de email rodando...')
+ns.register("emailer", uri)
 daemon.requestLoop()
+
