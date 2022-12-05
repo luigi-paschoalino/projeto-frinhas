@@ -39,3 +39,7 @@ select {
     border: solid 1px aliceblue;
     color:aliceblue
 }
+
+a:visited {
+    color: #ff5d5d;
+}
