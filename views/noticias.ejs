@@ -8,6 +8,11 @@
     <title>Notícias cadastradas</title>
 </head>
 <body>
+    <div id="header">
+        <a href="/">Home</a>
+        <a href="/noticias">Notícias</a>
+        <a href="/admin">Login administrador</a>
+    </div>
     <h1>Notícias cadastradas</h1>
     <% noticias.forEach(noticia => { %>
         <% let data = new Date(noticia.data_noticia).toLocaleString('en-US', { timeZone: 'Europe/Rome' }) %>

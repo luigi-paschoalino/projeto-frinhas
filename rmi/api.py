@@ -59,7 +59,7 @@ firstTime = True
 while True: # Verificação de novas notícias registradas no banco de dados,consulta da API e envio de email
     if firstTime is False:
         time.sleep(60)
-    #consultaAPI()
+    consultaAPI()
     cursor.execute('SELECT COUNT(*) FROM noticia')
     count = cursor.fetchone()
     if count[0] > noticias:

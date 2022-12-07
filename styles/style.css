@@ -40,6 +40,18 @@ select {
     color:aliceblue
 }
 
+a {
+    color: #ff5d5d;
+}
+
 a:visited {
     color: #ff5d5d;
+}
+
+#header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
