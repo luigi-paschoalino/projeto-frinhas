@@ -23,14 +23,14 @@ app.use(session({
 app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
-    res.render('index');
+    res.render('index', { admin: req.session.admin || false });
 });
 
 app.get('/admin', function (req, res) {
     if (!req.session.admin) {
-        res.render('admin');
+        res.render('admin', { admin: false });
     } else {
-        res.render('adminPage');
+        res.render('adminPage', { admin: req.session.admin || false });
     }
 });
 
@@ -59,7 +59,16 @@ app.get('/admin/noticias', function (req, res) {
             bairro = bairro.replace(/(\r)/gm, "");
             bairros.push(bairro);
         }
-        res.render('cadNoticias', { bairros: bairros });
+        res.render('cadNoticias', { bairros: bairros, admin: req.session.admin || false });
+    }
+});
+
+app.get('/admin/users', async function (req, res) {
+    if (!req.session.admin) {
+        res.redirect('/admin');
+    } else {
+        const usuarios = await models.Usuario.findAll();
+        res.render('users', { usuarios: usuarios, admin: req.session.admin || false });
     }
 });
 
@@ -93,7 +102,7 @@ app.get('/noticias', async function (req, res) {
                 ['idnoticia', 'DESC']
             ]
         });
-        res.render('noticias', { noticias: noticias });
+        res.render('noticias', { noticias: noticias, admin: req.session.admin || false });
     }
     else {
         const noticia = await models.Noticia.findOne({
@@ -102,18 +111,8 @@ app.get('/noticias', async function (req, res) {
                 idnoticia: req.query.id
             }
         });
-        res.render('noticia', { noticia: noticia });
+        res.render('noticia', { noticia: noticia, admin: req.session.admin || false });
     }
-});
-
-app.get('/debug', async function (req, res) {
-    retorno = await models.Usuario.findAll({ raw: true });
-    console.log(retorno);
-    res.json(retorno);
-});
-
-app.get('/teste', async function (req, res) {
-
 });
 
 app.post('/cadastro', async function (req, res) {
@@ -141,7 +140,8 @@ app.post('/cadastro', async function (req, res) {
             nome: req.body.nome,
             email: req.body.email,
             cep: req.body.cep,
-            bairro: bairro
+            bairro: bairro,
+            senha: req.body.senha
         }, { transaction: t });
         await t.commit();
         console.log('Usuário cadastrado com sucesso!');
@@ -151,7 +151,126 @@ app.post('/cadastro', async function (req, res) {
         console.error(error.message);
         await t.rollback();
     }
-})
+});
+
+app.get('/update', function (req, res) {
+    res.render('update', { admin: req.session.admin || false });
+});
+
+app.post('/update', async function (req, res) {
+    const t = await db.transaction();
+    try {
+        let result = await models.Usuario.findOne({
+            raw: true,
+            where: {
+                email: req.body.emailOld
+            }
+        });
+        if (result != null) {
+            if (req.body.emailNew == null || req.body.emailNew == undefined) {
+                function getBairro() {
+                    return new Promise((resolve) => {
+                        https.get('https://viacep.com.br/ws/' + req.body.cep + '/json/', (resp) => {
+                            let data = '';
+                            resp.on('data', (chunk) => {
+                                data += chunk;
+                            })
+                            resp.on('end', async () => {
+                                resolve(JSON.parse(data).bairro);
+                            }).on("error", (err) => {
+                                throw err;
+                            });
+                        })
+                    })
+                }
+                var bairro = await getBairro();
+                await models.Usuario.update({
+                    nome: req.body.nome,
+                    senha: req.body.senha,
+                    cep: req.body.cep,
+                    bairro: bairro
+                }, {
+                    where: {
+                        email: req.body.emailOld
+                    }
+                }, { transaction: t });
+            }
+            else {
+                function getBairro() {
+                    return new Promise((resolve) => {
+                        https.get('https://viacep.com.br/ws/' + req.body.cep + '/json/', (resp) => {
+                            let data = '';
+                            resp.on('data', (chunk) => {
+                                data += chunk;
+                            })
+                            resp.on('end', async () => {
+                                resolve(JSON.parse(data).bairro);
+                            }).on("error", (err) => {
+                                throw err;
+                            });
+                        })
+                    })
+                }
+                var bairro = await getBairro();
+                await models.Usuario.update({
+                    nome: req.body.nome,
+                    email: req.body.emailNew,
+                    senha: req.body.senha,
+                    cep: req.body.cep,
+                    bairro: bairro
+                }, {
+                    where: {
+                        email: req.body.emailOld
+                    }
+                }, { transaction: t });
+            }
+            await t.commit();
+            console.log('Usuário atualizado com sucesso!');
+            res.redirect('/');
+        }
+    }
+    catch (error) {
+        console.error(error.message);
+        await t.rollback();
+    }
+});
+
+app.get('/unsubscribe', function (req, res) {
+    res.render('unsubscribe', { admin: req.session.admin || false });
+});
+
+app.post('/unsubscribe', async function (req, res) {
+    const t = await db.transaction();
+    try {
+        let result = await models.Usuario.findOne({
+            raw: true,
+            where: {
+                email: req.body.email
+            }
+        });
+        if (result != null) {
+            await models.Usuario.destroy({
+                where: {
+                    email: req.body.email,
+                    senha: req.body.senha
+                }
+            }, { transaction: t });
+            await t.commit();
+            console.log('Usuário excluído com sucesso!');
+            res.redirect('/');
+        }
+    }
+    catch (error) {
+        console.error(error.message);
+        await t.rollback();
+        res.redirect('/unsubscribe');
+    }
+});
+
+app.get('/logout', function (req, res) {
+    req.session.admin = false;
+    res.redirect('/');
+});
 
 app.listen(port, err => {
     if (err) {

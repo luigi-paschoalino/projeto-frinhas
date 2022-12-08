@@ -55,3 +55,22 @@ a:visited {
     align-items: center;
     width: 100%;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr {
+    border-bottom: 1px solid #ddd;
+    transition-duration: 0.5s;
+}
+
+tr:hover {
+    background-color: #6d6d6d;
+}

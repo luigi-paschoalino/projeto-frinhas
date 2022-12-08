@@ -12,7 +12,13 @@
     <div id="header">
         <a href="/">Home</a>
         <a href="/noticias">Notícias</a>
-        <a href="/admin">Login administrador</a>
+        <a href="/update">Atualizar dados</a>
+        <% if (!admin) { %>
+            <a href="/admin">Login administrador</a>
+        <% } else { %>
+            <a href="/admin">Menu admin</a>
+            <a href="/logout">Logout</a>
+        <% } %>
     </div>
     <h1>Cadastro de notícias</h1>
     <form action="/cadNoticia" method="post">

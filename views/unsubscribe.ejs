@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
-    <title>Pagina ADM</title>
+    <title>Descadastrar do sistema</title>
 </head>
-
 <body>
     <div id="header">
         <a href="/">Home</a>
@@ -16,13 +14,16 @@
         <a href="/update">Atualizar dados</a>
         <% if (!admin) { %>
             <a href="/admin">Login administrador</a>
-            <% } else { %>
-                <a href="/admin">Menu admin</a>
-                <a href="/logout">Logout</a>
-                <% } %>
+        <% } else { %>
+            <a href="/admin">Menu admin</a>
+            <a href="/logout">Logout</a>
+        <% } %>
     </div>
-    <a href="/admin/noticias" class="linkADM">Cadastrar noticias</a>
-    <a href="/admin/users" class="linkADM">Lista de usuários cadastrados</a>
+    <h1>Descadastrar do sistema</h1>
+    <form action="/unsubscribe" method="post">
+        <input type="email" name="email" id="email" placeholder="E-mail" required><br>
+        <input type="password" name="senha" id="senha" placeholder="Senha" required><br><br>
+        <input type="submit" value="Descadastrar">
+    </form>
 </body>
-
 </html>

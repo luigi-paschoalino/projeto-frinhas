@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
-    <title>Login de administrador</title>
+    <title>Atualizar usuário</title>
 </head>
 <body>
     <div id="header">
@@ -19,11 +19,13 @@
             <a href="/logout">Logout</a>
         <% } %>
     </div>
-    <h1>Login administrador</h1>
-    <form action="/admin" method="post">
-        <input type="email" name="email" id="email" placeholder="Endereço de e-mail"><br>
-        <input type="password" name="password" id="password" placeholder="Senha"><br><br>
-        <input type="submit" value="Entrar">
+    <h1>Atualizar usuário</h1>
+    <form action="/update" method="post">
+        <input type="text" name="nome" id="nome" placeholder="Nome" required><br>
+        <input type="email" name="emailOld" id="emailOld" placeholder="E-mail antigo" required><br>
+        <input type="email" name="emailNew" id="emailNew" placeholder="E-mail novo (opcional)"><br>
+        <input type="text" name="cep" id="cep" placeholder="CEP" required><br>
+        <input type="submit" value="Atualizar">
     </form>
 </body>
 </html>

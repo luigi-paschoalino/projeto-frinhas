@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('unifei', 'postgres', 'postgres', {
+const sequelize = new Sequelize('unifei2', 'postgres', 'postgres', {
     host: 'localhost',
     dialect: 'postgres'
 });

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
-    <title>Login de administrador</title>
+    <title>Lista de usuários cadastrados</title>
 </head>
 <body>
     <div id="header">
@@ -19,11 +19,22 @@
             <a href="/logout">Logout</a>
         <% } %>
     </div>
-    <h1>Login administrador</h1>
-    <form action="/admin" method="post">
-        <input type="email" name="email" id="email" placeholder="Endereço de e-mail"><br>
-        <input type="password" name="password" id="password" placeholder="Senha"><br><br>
-        <input type="submit" value="Entrar">
-    </form>
+    <h1>Lista de usuários cadastrados</h1>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>CEP</th>
+            <th>Bairro</th>
+        </tr>
+        <% usuarios.forEach(usuario => { %>
+        <tr>
+            <td><%= usuario.nome %></td>
+            <td><%= usuario.email %></td>
+            <td><%= usuario.cep %></td>
+            <td><%= usuario.bairro %></td>
+        </tr>
+        <% }) %>
+    </table>
 </body>
 </html>

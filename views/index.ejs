@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,20 +8,30 @@
     <link rel="stylesheet" href="/style.css">
     <title>Teste</title>
 </head>
+
 <body>
     <div id="header">
         <a href="/">Home</a>
         <a href="/noticias">Notícias</a>
-        <a href="/admin">Login administrador</a>
+        <a href="/update">Atualizar dados</a>
+        <% if (!admin) { %>
+            <a href="/admin">Login administrador</a>
+        <% } else { %>
+            <a href="/admin">Menu admin</a>
+            <a href="/logout">Logout</a>
+        <% } %>
     </div>
     <h1>DEFESA CIVIL - Cadastro para notificações de risco</h1>
     <div id="cadastro">
         <form action="/cadastro" method="post">
-            <input type="text" name="nome" id="nome" placeholder="Primeiro nome"><br>
-            <input type="email" name="email" id="email" placeholder="Endereço de e-mail"><br>
-            <input type="text" name="cep" id="cep" placeholder="CEP (somente números)"><br><br>
-            <input type="submit" value="Cadastrar">
+            <input type="text" name="nome" id="nome" placeholder="Primeiro nome" required><br>
+            <input type="email" name="email" id="email" placeholder="Endereço de e-mail" required><br>
+            <input type="password" name="senha" id="senha" placeholder="Senha" required><br>
+            <input type="text" name="cep" id="cep" placeholder="CEP (somente números)" required><br><br>
+            <input type="submit" value="Cadastrar"><br><br>
+            <p>Deseja descadastrar? <a href="/unsubscribe">Clique aqui!</a></p>
         </form>
     </div>
 </body>
+
 </html>
