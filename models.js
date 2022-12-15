@@ -69,6 +69,73 @@ const Noticia = db.define('noticia', {
     freezeTableName: true
 });
 
+const Contato = db.define('contato', {
+    idcontato: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    nome: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    telefone: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    endereco: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    bairro: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    complemento: {
+        type: Sequelize.STRING,
+        allowNull: true
+    }
+},
+{
+        timestamps: false,
+        freezeTableName: true
+});
+
+const Abrigo = db.define('abrigo', {
+    idabrigo: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    nome: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+    },
+    endereco: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    bairro: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    complemento: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    capacidade: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    }
+},
+{
+    timestamps: false,
+    freezeTableName: true
+});
+
 sync();
 
-module.exports = { Usuario, Noticia, Sequelize };
+module.exports = { Usuario, Noticia, Contato, Abrigo, Sequelize };

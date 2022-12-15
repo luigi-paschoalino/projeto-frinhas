@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="/style.css">
     <title>Portal Administrador - Cadastro de notícias</title>
 </head>
@@ -12,6 +12,8 @@
     <div id="header">
         <a href="/">Home</a>
         <a href="/noticias">Notícias</a>
+        <a href="/contatos">Contatos</a>
+        <a href="/abrigos">Abrigos</a>
         <a href="/update">Atualizar dados</a>
         <% if (!admin) { %>
             <a href="/admin">Login administrador</a>
@@ -22,21 +24,29 @@
     </div>
     <h1>Cadastro de notícias</h1>
     <form action="/cadNoticia" method="post">
-        <label>Tipo de desastre:</label>
-        <select name="desastre">
-            <option value="Enchente">Enchente</option>
-            <option value="Queimada">Queimada</option>
-            <option value="Deslizamento">Deslizamento</option>
-        </select><br>
-        <label>Bairro afetado:</label>
-        <select name="bairro">
-            <% bairros.forEach(bairro => { %>
-                <option value="<%= bairro %>"><%= bairro %></option>
-            <% }) %>
-        </select><br>
-        <label>Descrição:</label><br>
-        <textarea name="descricao" rows="8"></textarea><br>
-        <input type="submit" value="Cadastrar notícia" id="botaoSubmit">
+        <div class="form-group">
+            <label>Tipo de desastre:</label>
+            <select class="form-control" name="desastre">
+                <option value="Enchente">Enchente</option>
+                <option value="Queimada">Queimada</option>
+                <option value="Deslizamento">Deslizamento</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Bairro afetado:</label>
+            <select class="form-control" name="bairro">
+                <% bairros.forEach(bairro => { %>
+                    <option value="<%= bairro %>"><%= bairro %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Descrição:</label><br>
+            <textarea class="form-control" name="descricao" rows="8"></textarea><br>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-outline-primary" type="submit" value="Cadastrar notícia" id="botaoSubmit">
+        </div>
     </form>
 </body>
 </html>

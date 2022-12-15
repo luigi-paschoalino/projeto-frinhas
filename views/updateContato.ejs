@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <title>Atualização de contato</title>
+</head>
+<body>
+    <div id="header">
+        <a href="/">Home</a>
+        <a href="/noticias">Notícias</a>
+        <a href="/contatos">Contatos</a>
+        <a href="/abrigos">Abrigos</a>
+        <a href="/update">Atualizar dados</a>
+        <% if (!admin) { %>
+            <a href="/admin">Login administrador</a>
+        <% } else { %>
+            <a href="/admin">Menu admin</a>
+            <a href="/logout">Logout</a>
+        <% } %>
+    </div>
+    <h1>Atualização do contato de ID #<%= contato.idcontato %></h1>
+    <form action="/updateContato" method="post">
+        <input type="number" value="<%= contato.idcontato %>" name="idcontato" hidden>
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" value="<%= contato.nome %>">
+        </div>
+        <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" value="<%= contato.telefone %>">
+        </div>
+        <div class="form-group">
+            <label for="endereco">Endereço</label>
+            <input type="text" class="form-control" id="endereco" name="endereco" value="<%= contato.endereco %>">
+        </div>
+        <div class="form-group">
+            <label for="bairro">Bairro</label>
+            <input type="text" class="form-control" id="bairro" name="bairro" value="<%= contato.bairro %>">
+        </div>
+        <div class="form-group">
+            <label for="complemento">Complemento</label>
+            <input type="text" class="form-control" id="complemento" name="complemento" value="<%= contato.complemento %>">
+        </div>
+        <input type="submit" class="btn btn-outline-warning" value="Atualizar">
+    </form>
+</body>
+</html>

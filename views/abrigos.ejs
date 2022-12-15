@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <title>Abrigos do município</title>
+</head>
+<body>
+    <div id="header">
+        <a href="/">Home</a>
+        <a href="/noticias">Notícias</a>
+        <a href="/contatos">Contatos</a>
+        <a href="/abrigos">Abrigos</a>
+        <a href="/update">Atualizar dados</a>
+        <% if (!admin) { %>
+            <a href="/admin">Login administrador</a>
+        <% } else { %>
+            <a href="/admin">Menu admin</a>
+            <a href="/logout">Logout</a>
+        <% } %>
+    </div>
+    <h1>Abrigos cadastrados</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <% if (admin) { %>
+                    <th scope="col">#</th>
+                <% } %>
+                <th scope="col">Nome</th>
+                <th scope="col">Endereço</th>
+                <th scope="col">Bairro</th>
+                <th scope="col">Complemento</th>
+                <th scope="col">Capacidade (pessoas)</th>
+                <% if (admin) { %>
+                    <th scope="col">Ações</th>
+                <% } %>
+            </tr>
+        </thead>
+        <tbody>
+            <% abrigos.forEach(abrigo => { %>
+                <tr>
+                    <% if (admin) { %>
+                        <th scope="row"><%= abrigo.idabrigo %></th>
+                    <% } %>
+                    <td><%= abrigo.nome %></td>
+                    <td><%= abrigo.endereco %></td>
+                    <td><%= abrigo.bairro %></td>
+                    <td><%= abrigo.complemento %></td>
+                    <td><%= abrigo.capacidade %></td>
+                    <% if (admin) { %>
+                        <td><a href="/updateAbrigo?id=<%= abrigo.idabrigo %>">Editar</a> <a href="/deleteAbrigo?id=<%= abrigo.idabrigo %>">Excluir</a></td>
+                    <% } %>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

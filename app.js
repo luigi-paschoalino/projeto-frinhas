@@ -272,6 +272,216 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+app.get('/contatos', async function (req, res) {
+    let result = await models.Contato.findAll({
+        raw: true,
+        order: [
+            ['idcontato', 'ASC']
+        ]
+    });
+    res.render('contatos', { admin: req.session.admin || false, contatos: result });
+});
+
+app.get('/admin/contatos', async function (req, res) {
+    if (!req.session.admin) {
+        res.redirect('/admin');
+    }
+    else {
+        res.render('cadContatos', { admin: req.session.admin || false });
+    }
+});
+
+app.post('/admin/contatos', async function (req, res) {
+    const t = await db.transaction();
+    try {
+        await models.Contato.create({
+            attributes: ['nome', 'telefone', 'endereco', 'bairro', 'complemento'],
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            endereco: req.body.endereco,
+            bairro: req.body.bairro,
+            complemento: req.body.complemento || null
+        }, { transaction: t });
+        await t.commit();
+        console.log('Contato cadastrado com sucesso!');
+        res.redirect('/contatos');
+    }
+    catch (error) {
+        console.error(error.message);
+        await t.rollback();
+        res.redirect('/admin/contatos');
+    }
+});
+
+app.get('/updateContato', async function (req, res) {
+    if (!req.session.admin) {
+        res.redirect('/admin');
+    }
+    else {
+        let result = await models.Contato.findOne({
+            raw: true,
+            where: {
+                idcontato: req.query.id
+            }
+        });
+        res.render('updateContato', { admin: req.session.admin || false, contato: result });
+    }
+});
+
+app.post('/updateContato', async function (req, res) {
+    const t = await db.transaction();
+    try {
+        await models.Contato.update({
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            endereco: req.body.endereco,
+            bairro: req.body.bairro,
+            complemento: req.body.complemento || null
+        }, {
+            where: {
+                idcontato: req.body.idcontato
+            }
+        }, { transaction: t });
+        await t.commit();
+        console.log('Contato atualizado com sucesso!');
+        res.redirect('/contatos');
+    }
+    catch (error) {
+        console.error(error.message);
+        await t.rollback();
+        res.redirect('/updateContato?id=' + req.body.id);
+    }
+});
+
+app.get('/deleteContato', async function (req, res) {
+    if (!req.session.admin) {
+        res.redirect('/admin');
+    }
+    else {
+        const t = await db.transaction();
+        try {
+            await models.Contato.destroy({
+                where: {
+                    idcontato: req.query.id
+                }
+            }, { transaction: t });
+            await t.commit();
+            console.log('Contato excluído com sucesso!');
+            res.redirect('/contatos');
+        }
+        catch (error) {
+            console.error(error.message);
+            await t.rollback();
+            res.redirect('/contatos');
+        }
+    }
+});
+
+app.get('/abrigos', async function (req, res) {
+    let result = await models.Abrigo.findAll({
+        raw: true,
+        order: [
+            ['idabrigo', 'ASC']
+        ]
+    });
+    res.render('abrigos', { admin: req.session.admin || false, abrigos: result });
+});
+
+app.get('/admin/abrigos', async function (req, res) {
+    if (!req.session.admin) {
+        res.redirect('/admin');
+    }
+    else {
+        res.render('cadAbrigos', { admin: req.session.admin || false });
+    }
+});
+
+app.post('/admin/abrigos', async function (req, res) {
+    const t = await db.transaction();
+    try {
+        await models.Abrigo.create({
+            attributes: ['nome', 'endereco', 'bairro', 'complemento', 'capacidade'],
+            nome: req.body.nome,
+            endereco: req.body.endereco,
+            bairro: req.body.bairro,
+            complemento: req.body.complemento || null,
+            capacidade: req.body.capacidade
+        }, { transaction: t });
+        await t.commit();
+        console.log('Abrigo cadastrado com sucesso!');
+        res.redirect('/abrigos');
+    }
+    catch (error) {
+        console.error(error.message);
+        await t.rollback();
+        res.redirect('/admin/abrigos');
+    }
+});
+
+app.get('/updateAbrigo', async function (req, res) {
+    if (!req.session.admin) {
+        res.redirect('/admin');
+    }
+    else {
+        let result = await models.Abrigo.findOne({
+            raw: true,
+            where: {
+                idabrigo: req.query.id
+            }
+        });
+        res.render('updateAbrigo', { admin: req.session.admin || false, abrigo: result });
+    }
+});
+
+app.post('/updateAbrigo', async function (req, res) {
+    const t = await db.transaction();
+    try {
+        await models.Abrigo.update({
+            nome: req.body.nome,
+            endereco: req.body.endereco,
+            bairro: req.body.bairro,
+            complemento: req.body.complemento || null,
+            capacidade: req.body.capacidade
+        }, {
+            where: {
+                idabrigo: req.body.idabrigo
+            }
+        }, { transaction: t });
+        await t.commit();
+        console.log('Abrigo atualizado com sucesso!');
+        res.redirect('/abrigos');
+    }
+    catch (error) {
+        console.error(error.message);
+        await t.rollback();
+        res.redirect('/updateAbrigo?id=' + req.body.id);
+    }
+});
+
+app.get('/deleteAbrigo', async function (req, res) {
+    if (!req.session.admin) {
+        res.redirect('/admin');
+    }
+    else {
+        const t = await db.transaction();
+        try {
+            await models.Abrigo.destroy({
+                where: {
+                    idabrigo: req.query.id
+                }
+            }, { transaction: t });
+            await t.commit();
+            console.log('Abrigo excluído com sucesso!');
+            res.redirect('/abrigos');
+        }
+        catch (error) {
+            console.error(error.message);
+            await t.rollback();
+            res.redirect('/abrigos');
+        }
+    }
+});
+
 app.listen(port, err => {
     if (err) {
         return console.log('Erro: ', err);
