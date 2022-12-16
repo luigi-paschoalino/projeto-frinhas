@@ -22,7 +22,7 @@ class Emailer(object):
             print('Erro ao enviar email:', ex)
         return True
 
-daemon = Pyro5.server.Daemon(host="10.244.251.240")
+daemon = Pyro5.server.Daemon(host="10.244.7.36")
 ns = Pyro5.core.locate_ns()
 uri = daemon.register(Emailer)
 ns.register("emailer", uri)
